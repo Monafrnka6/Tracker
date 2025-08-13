@@ -29,13 +29,15 @@ jobs:
           sdkmanager --install "platforms;android-33" "build-tools;33.0.2" "platform-tools"
           yes | sdkmanager --licenses
 
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+      # 👉 Use the NEW Gradle action and DISABLE caching
+      - name: Set up Gradle (no cache)
+        uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.1.1
+          cache-disabled: true
 
-      - name: Build Debug APK
-        run: gradle assembleDebug
+      - name: Build Debug APK (no daemon)
+        run: gradle --no-daemon assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
